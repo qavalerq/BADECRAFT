@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="blade-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111624" />
+      <stop offset="50%" stop-color="#0a0d16" />
+      <stop offset="100%" stop-color="#05070c" />
+    </linearGradient>
+
+    <!-- Border Gradient -->
+    <linearGradient id="blade-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.85" />
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0.75" />
+    </linearGradient>
+
+    <!-- Warm Crimson Radial Backlight -->
+    <radialGradient id="blade-glow" cx="50%" cy="50%" r="46%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.26" />
+      <stop offset="45%" stop-color="#b91c1c" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Titanium Steel Gradients -->
+    <linearGradient id="titanium-steel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="30%" stop-color="#cbd5e1" />
+      <stop offset="70%" stop-color="#64748b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+
+    <linearGradient id="chrome-shine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="40%" stop-color="#e2e8f0" />
+      <stop offset="50%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+
+    <!-- Crimson Laser Gradient -->
+    <linearGradient id="crimson-laser" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f87171" />
+      <stop offset="40%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+
+    <!-- Drop Shadow / Red Glow Filter -->
+    <filter id="crimson-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="14" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="steel-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.75" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="32" y="32" width="960" height="960" rx="224" fill="url(#blade-bg)" />
+  <rect x="32" y="32" width="960" height="960" rx="224" fill="none" stroke="url(#blade-border)" stroke-width="4" />
+
+  <!-- Ambient Crimson Radial Light -->
+  <circle cx="512" cy="512" r="390" fill="url(#blade-glow)" />
+
+  <!-- Background Geometric Diamond Halo (Executive Luxury) -->
+  <rect x="352" y="352" width="320" height="320" rx="36" transform="rotate(45 512 512)" 
+        fill="none" stroke="#ffffff" stroke-width="2" stroke-opacity="0.08" />
+  <rect x="320" y="320" width="384" height="384" rx="44" transform="rotate(45 512 512)" 
+        fill="none" stroke="#ef4444" stroke-width="2" stroke-opacity="0.2" />
+
+  <!-- MAIN EMBLEM: CROSSED TITANIUM RAZOR & SHEARS SILHOUETTE -->
+  <g filter="url(#steel-shadow)">
+    <!-- Barber Shears (Blade A - Angled Top-Left to Bottom-Right) -->
+    <g transform="rotate(-30 512 512)">
+      <!-- Left Shear Blade -->
+      <path d="M 502 200 C 502 360 492 480 472 580 L 532 580 C 522 480 522 360 522 200 Z" 
+            fill="url(#titanium-steel)" stroke="#cbd5e1" stroke-width="2" />
+      <!-- Shear Handle Stem -->
+      <path d="M 472 580 L 452 720 L 492 720 L 512 580 Z" fill="#334155" />
+      <!-- Left Shear Ring Finger Loop -->
+      <ellipse cx="442" cy="780" rx="55" ry="70" fill="none" stroke="url(#chrome-shine)" stroke-width="18" />
+    </g>
+
+    <!-- Barber Shears (Blade B - Angled Top-Right to Bottom-Left) -->
+    <g transform="rotate(30 512 512)">
+      <!-- Right Shear Blade with Crimson Edge -->
+      <path d="M 502 200 C 502 360 492 480 472 580 L 532 580 C 522 480 522 360 522 200 Z" 
+            fill="url(#chrome-shine)" stroke="#cbd5e1" stroke-width="2" />
+      <!-- Shear Handle Stem -->
+      <path d="M 512 580 L 532 720 L 492 720 L 472 580 Z" fill="#334155" />
+      <!-- Right Shear Ring Finger Loop -->
+      <ellipse cx="542" cy="780" rx="55" ry="70" fill="none" stroke="url(#chrome-shine)" stroke-width="18" />
+    </g>
+
+    <!-- Classic Straight Razor Blade Positioned Horizontally with Crimson Glow Edge -->
+    <!-- The Razor Spine & Blade -->
+    <g>
+      <!-- Razor Body (Titanium Solid Bar) -->
+      <path d="M 260 512 L 764 512 L 744 565 L 280 565 Z" fill="url(#titanium-steel)" />
+      <!-- Mirror Polished Center Blade -->
+      <rect x="290" y="520" width="444" height="32" rx="4" fill="url(#chrome-shine)" />
+      
+      <!-- Razor Sharp Cutting Edge (Glowing Crimson Red) -->
+      <path d="M 276 565 L 748 565 L 738 575 L 286 575 Z" fill="url(#crimson-laser)" filter="url(#crimson-glow)" />
+      <line x1="280" y1="575" x2="744" y2="575" stroke="#ef4444" stroke-width="4" filter="url(#crimson-glow)" />
+
+      <!-- Razor Tang / Pivot Tail on Left -->
+      <path d="M 260 512 C 220 512 195 530 185 545 C 195 560 220 565 280 565 Z" fill="#1e293b" stroke="#475569" stroke-width="3" />
+      <circle cx="215" cy="542" r="8" fill="#cbd5e1" />
+    </g>
+
+    <!-- Central Precision Axis Screw with Ruby Gem Core -->
+    <circle cx="512" cy="512" r="32" fill="#090d16" stroke="url(#chrome-shine)" stroke-width="6" />
+    <circle cx="512" cy="512" r="16" fill="url(#crimson-laser)" filter="url(#crimson-glow)" />
+    <circle cx="512" cy="512" r="6" fill="#ffffff" />
+  </g>
+
+  <!-- Specular Blade Sparkle / Glint (Top Right) -->
+  <g transform="translate(685, 450)" filter="url(#crimson-glow)">
+    <line x1="0" y1="-26" x2="0" y2="26" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+    <line x1="-26" y1="0" x2="26" y2="0" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+    <circle cx="0" cy="0" r="6" fill="#ffffff" />
+  </g>
+</svg>

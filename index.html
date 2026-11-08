@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>BladeCraft — Мужские стрижки и бритье</title>
+  <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/png" href="assets/bladecraft_icon.png">
+  <link rel="apple-touch-icon" href="assets/bladecraft_icon.png">
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-deep: #090c14;
+      --glass-surface: rgba(18, 24, 38, 0.78);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent-red: #ef4444;
+      --accent-glow: 0 0 25px rgba(239, 68, 68, 0.25);
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Subtle Grid Texture */
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Directional GPU-Accelerated Step Transitions */
+    .step-view {
+      will-change: transform, opacity;
+    }
+
+    .slide-forward {
+      animation: animSlideForward 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide-backward {
+      animation: animSlideBackward 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes animSlideForward {
+      0% {
+        opacity: 0;
+        transform: translate3d(20px, 0, 0) scale(0.99);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes animSlideBackward {
+      0% {
+        opacity: 0;
+        transform: translate3d(-20px, 0, 0) scale(0.99);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    /* Glassmorphic Cards */
+    .glass-card {
+      position: relative;
+      background: var(--glass-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1), 
+                  border-color 0.22s ease, 
+                  background 0.22s ease, 
+                  box-shadow 0.22s ease;
+    }
+    .glass-card:active {
+      transform: scale(0.98);
+    }
+
+    /* Selected Card State (Vibrant Crimson Ruby Aesthetic) */
+    .glass-selected {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.14) 0%, rgba(13, 18, 30, 0.92) 55%) !important;
+      border-color: rgba(239, 68, 68, 0.75) !important;
+      box-shadow: 0 0 24px rgba(239, 68, 68, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+    }
+
+    /* 21st.dev Animated Border Beam */
+    .border-beam-wrap {
+      position: relative;
+      border-radius: 20px;
+      padding: 1.5px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.06);
+      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.25s ease;
+    }
+    .border-beam-wrap:hover {
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
+    }
+    .border-beam-tracer {
+      position: absolute;
+      top: -150%;
+      left: -150%;
+      width: 400%;
+      height: 400%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 285deg,
+        rgba(239, 68, 68, 0.45) 320deg,
+        #ffffff 348deg,
+        rgba(239, 68, 68, 1) 360deg
+      );
+      animation: borderBeamRotate 5s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes borderBeamRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Spotlight Radial Layer (21st.dev style cursor & touch follow) */
+    .spotlight-layer {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      background: radial-gradient(320px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.22), rgba(244, 63, 94, 0.06) 45%, transparent 75%);
+    }
+    .glass-card:hover .spotlight-layer,
+    .glass-card:active .spotlight-layer,
+    .border-beam-wrap:hover .spotlight-layer {
+      opacity: 1;
+    }
+
+    /* Dynamic Island Dock Glow */
+    .dock-island {
+      background: rgba(9, 12, 20, 0.92) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-top-color: rgba(255, 255, 255, 0.28) !important;
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(239, 68, 68, 0.16) !important;
+    }
+
+    /* Bouncy Checkbox Pop */
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* Shimmer Button & Text Keyframes */
+    @keyframes shimmer {
+      from { background-position: 0 0; }
+      to { background-position: -200% 0; }
+    }
+    @keyframes textShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .btn-red-shimmer {
+      background: linear-gradient(110deg, #dc2626 0%, #ef4444 25%, #991b1b 50%, #dc2626 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3.5s linear infinite;
+    }
+
+    /* Moving light sheen on Craft */
+    .shine-craft {
+      background: linear-gradient(110deg, #ef4444 0%, #fca5a5 35%, #ffffff 50%, #fca5a5 65%, #ef4444 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShimmer 3.2s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    /* Category Pill Active Glow & Shimmer (Subtle, Muted Luxury) */
+    .pill-active {
+      background: linear-gradient(110deg, #991b1b 0%, #dc2626 25%, #ef4444 50%, #dc2626 75%, #991b1b 100%) !important;
+      background-size: 200% 100%;
+      animation: shimmer 4s linear infinite;
+      color: #ffffff !important;
+      box-shadow: 0 2px 10px rgba(220, 38, 38, 0.22);
+      border-color: rgba(239, 68, 68, 0.6) !important;
+    }
+
+    /* Metallic Pattern & Brushed Steel Sheen for Barbershop Cards */
+    .metal-texture {
+      background-image: 
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 4px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 1px, transparent 1px, transparent 4px);
+    }
+    .metal-sheen {
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.03) 40%, transparent 60%, rgba(0,0,0,0.5) 100%);
+    }
+
+    /* Fluid Tab Card Transition */
+    @keyframes cardSlideIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+    .card-slide-in {
+      animation: cardSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Ambient Breathing Orbs */
+    @keyframes orbFloat {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.12; }
+      50% { transform: translate3d(30px, -35px, 0) scale(1.2); opacity: 0.24; }
+    }
+    .orb-1 { animation: orbFloat 14s ease-in-out infinite; }
+    .orb-2 { animation: orbFloat 18s ease-in-out infinite reverse; }
+
+    /* Elastic Tactile Spring */
+    .spring-tactile {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .spring-tactile:active {
+      transform: scale(0.965);
+    }
+
+    /* Input Focus Glow */
+    .input-luxury:focus-within {
+      border-color: rgba(239, 68, 68, 0.7);
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+    }
+
+    /* Hide scrollbars */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="p-4 pb-28 no-scrollbar max-w-md mx-auto min-h-screen flex flex-col justify-between bg-grid-pattern relative">
+
+  <!-- AMBIENT BACKGROUND GLOW (Animated Breathing Luxury Crimson Atmosphere) -->
+  <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] orb-1"></div>
+    <div class="absolute top-1/2 -right-32 w-96 h-96 rounded-full bg-rose-600/12 blur-[130px] orb-2"></div>
+  </div>
+
+  <!-- MAIN APP CONTENT -->
+  <div class="relative z-10">
+    <!-- Centered Brand Header with Live Status & Vector Emblem -->
+    <header class="text-center pt-2 mb-6">
+      <!-- Live Status Beacon Pill -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 mb-3 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+        <span class="text-[10px] font-extrabold text-emerald-300 uppercase tracking-wider">Открыто до 22:00</span>
+        <span class="text-white/20">•</span>
+        <span class="text-[10px] font-medium text-slate-300">Новороссийск, Набережная 14</span>
+      </div>
+
+      <div class="flex items-center justify-center gap-2.5">
+        <img src="assets/bladecraft_icon.svg" alt="BladeCraft Logo" class="w-8 h-8 rounded-lg shadow-md border border-white/10 flex-shrink-0">
+        <h1 class="text-2xl font-black tracking-tight text-white uppercase leading-none">
+          Blade<span class="shine-craft">Craft</span>
+        </h1>
+      </div>
+      <p class="text-xs font-medium text-slate-400 tracking-normal mt-2">Премиальный мужской клуб и авторский стиль</p>
+    </header>
+
+    <!-- Multi-Step Progress Tracker with Red Accent -->
+    <div class="grid grid-cols-4 gap-1.5 mb-6">
+      <div id="step-pill-1" class="h-1.5 rounded-full bg-red-500 shadow-sm shadow-red-500/50 transition-all duration-300"></div>
+      <div id="step-pill-2" class="h-1.5 rounded-full bg-white/10 transition-all duration-300"></div>
+      <div id="step-pill-3" class="h-1.5 rounded-full bg-white/10 transition-all duration-300"></div>
+      <div id="step-pill-4" class="h-1.5 rounded-full bg-white/10 transition-all duration-300"></div>
+    </div>
+
+    <!-- MAIN STEP CONTAINER -->
+    <main id="step-container">
+      <!-- ============================================== -->
+      <!-- STEP 1: ВЫБОР УСЛУГИ -->
+      <!-- ============================================== -->
+      <section id="view-step-1" class="step-view space-y-4">
+        <!-- Section Header with Balanced Spacing -->
+        <div class="flex items-center justify-between">
+          <div class="space-y-1">
+            <h2 class="text-xl font-black text-white tracking-tight">Выберите услуги</h2>
+            <p class="text-xs font-medium text-slate-400 leading-normal">Можно выбрать одну или несколько процедур</p>
+          </div>
+          <!-- Rounded Step Pill without text wrap -->
+          <span class="text-xs font-bold text-red-400 bg-red-500/10 border border-red-500/25 px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
+            Шаг 1 из 4
+          </span>
+        </div>
+
+        <!-- Category Filter Pills (Tactile with glow on active, stable font-weight to prevent layout shift) -->
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <button onclick="filterServices('all', this)" class="cat-pill pill-active px-4 py-2 rounded-xl text-xs font-extrabold border border-red-500 whitespace-nowrap transition-all duration-200">
+            Все (5)
+          </button>
+          <button onclick="filterServices('hair', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-extrabold bg-white/5 text-slate-300 border border-white/10 hover:border-red-500/30 whitespace-nowrap transition-all duration-200">
+            Стрижки
+          </button>
+          <button onclick="filterServices('beard', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-extrabold bg-white/5 text-slate-300 border border-white/10 hover:border-red-500/30 whitespace-nowrap transition-all duration-200">
+            Борода
+          </button>
+          <button onclick="filterServices('combo', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-extrabold bg-white/5 text-slate-300 border border-white/10 hover:border-red-500/30 whitespace-nowrap transition-all duration-200">
+            Комплексы
+          </button>
+          <button onclick="filterServices('care', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-extrabold bg-white/5 text-slate-300 border border-white/10 hover:border-red-500/30 whitespace-nowrap transition-all duration-200">
+            VIP Уход
+          </button>
+        </div>
+
+        <!-- Services List (with min-height to eliminate layout collapse) -->
+        <div id="services-list" class="space-y-3 min-h-[460px]">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- STEP 2: ВЫБОР МАСТЕРА -->
+      <!-- ============================================== -->
+      <section id="view-step-2" class="step-view hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="space-y-1">
+            <h2 class="text-xl font-black text-white tracking-tight">Выберите барбера</h2>
+            <p class="text-xs font-medium text-slate-400 leading-normal">Кто займётся вашим стилем</p>
+          </div>
+          <button onclick="goToStep(1)" class="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 active:scale-95 transition-transform px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20">
+            <span>← Назад</span>
+          </button>
+        </div>
+
+        <!-- Masters List -->
+        <div id="masters-list" class="space-y-3">
+          <!-- Injected via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- STEP 3: ДАТА И ВРЕМЯ СЛОТОВ -->
+      <!-- ============================================== -->
+      <section id="view-step-3" class="step-view hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="space-y-1">
+            <h2 class="text-xl font-black text-white tracking-tight">Дата и время</h2>
+            <p class="text-xs font-medium text-slate-400 leading-normal">Выберите подходящее свободное окно</p>
+          </div>
+          <button onclick="goToStep(2)" class="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 active:scale-95 transition-transform px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20">
+            <span>← Назад</span>
+          </button>
+        </div>
+
+        <!-- Date Carousel with Arrows for PC & Mobile -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-xs font-bold text-slate-300 uppercase tracking-wide">Дата визита</label>
+            <!-- PC Scroll Buttons -->
+            <div class="flex items-center gap-1.5">
+              <button onclick="scrollDays(-120)" class="w-6 h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white active:scale-90 text-xs">‹</button>
+              <button onclick="scrollDays(120)" class="w-6 h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white active:scale-90 text-xs">›</button>
+            </div>
+          </div>
+          <!-- Days Horizontal Carousel (Mouse-wheel and touch drag enabled) -->
+          <div id="days-carousel" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1 cursor-grab active:cursor-grabbing">
+            <!-- Injected via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Time Slots Grid -->
+        <div class="space-y-4 pt-1">
+          <!-- Утро -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                Утро (10:00 – 12:00)
+              </span>
+              <div class="h-px flex-1 bg-white/5"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-2" id="slots-morning"></div>
+          </div>
+
+          <!-- День -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m10-10h-2M4 12H2m17.071-7.071l-1.414 1.414M6.343 17.657l-1.414 1.414m14.142 0l-1.414-1.414M6.343 6.343L4.929 4.929M12 6a6 6 0 100 12 6 6 0 000-12z" /></svg>
+                День (13:00 – 17:00)
+              </span>
+              <div class="h-px flex-1 bg-white/5"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-2" id="slots-afternoon"></div>
+          </div>
+
+          <!-- Вечер -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                Вечер (18:00 – 21:00)
+              </span>
+              <div class="h-px flex-1 bg-white/5"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-2" id="slots-evening"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- STEP 4: ПОДТВЕРЖДЕНИЕ И ЗАПИСЬ -->
+      <!-- ============================================== -->
+      <section id="view-step-4" class="step-view hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="space-y-1">
+            <h2 class="text-xl font-black text-white tracking-tight">Ваш визит</h2>
+            <p class="text-xs font-medium text-slate-400 leading-normal">Проверьте детали перед подтверждением</p>
+          </div>
+          <button onclick="goToStep(3)" class="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 active:scale-95 transition-transform px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20">
+            <span>← Изменить</span>
+          </button>
+        </div>
+
+        <!-- Solid Premium Order Summary Card (No Tickets / No Barcodes) -->
+        <div class="glass-card p-5 space-y-4 relative border border-white/10 shadow-2xl">
+          <div class="spotlight-layer"></div>
+
+          <!-- Header -->
+          <div class="pb-3 border-b border-white/10 relative z-10 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] uppercase tracking-wider text-red-400 font-extrabold bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-md inline-flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                Детали записи
+              </span>
+              <!-- Clean Vector Scissors Icon -->
+              <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.828 2.828a4 4 0 11-5.657-5.657L6.343 6.343m0 0L12 12m-5.657-5.657l7 7" />
+                </svg>
+              </div>
+            </div>
+            <div class="text-xs font-medium text-slate-300 leading-relaxed pr-2">
+              Новороссийск, Набережная им. Адмирала Серебрякова, 27
+            </div>
+          </div>
+
+          <!-- Summary Items -->
+          <div class="space-y-2.5 text-xs relative z-10">
+            <div class="flex justify-between items-start gap-2">
+              <span class="text-slate-400 font-medium">Услуги:</span>
+              <span class="font-extrabold text-white text-right max-w-[210px] leading-snug" id="summary-services">-</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400 font-medium">Барбер:</span>
+              <span class="font-extrabold text-red-400" id="summary-master">-</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400 font-medium">Дата и время:</span>
+              <span class="font-extrabold text-white" id="summary-datetime">-</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-slate-400 font-medium">Длительность:</span>
+              <span class="font-bold text-slate-300" id="summary-duration">-</span>
+            </div>
+          </div>
+
+          <!-- Total Price Row -->
+          <div class="pt-3 border-t border-white/10 flex items-center justify-between relative z-10">
+            <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">Итого к оплате:</span>
+            <span class="text-2xl font-black text-red-500" id="summary-total">0 ₽</span>
+          </div>
+        </div>
+
+        <!-- Client Contact Info -->
+        <div class="glass-card p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-slate-300 block">Введите ваши данные</label>
+            <span class="text-[10px] text-slate-400 font-medium">Для подтверждения записи</span>
+          </div>
+          <!-- Name Input with Vector Icon -->
+          <div class="relative flex items-center">
+            <div class="absolute left-3.5 text-slate-400 pointer-events-none">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+            </div>
+            <input id="input-client-name" type="text" placeholder="Ваше имя" class="w-full text-xs font-bold pl-10 pr-3.5 py-3 bg-slate-900/90 border border-white/10 rounded-xl outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/30 text-white placeholder-slate-500 transition-all">
+          </div>
+          <!-- Phone Input with Vector Icon -->
+          <div class="relative flex items-center">
+            <div class="absolute left-3.5 text-slate-400 pointer-events-none">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            </div>
+            <input id="input-client-phone" type="tel" placeholder="+7 (999) 000-00-00" class="w-full text-xs font-bold pl-10 pr-3.5 py-3 bg-slate-900/90 border border-white/10 rounded-xl outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/30 text-white placeholder-slate-500 transition-all">
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- FLOATING BOTTOM SUMMARY & SHIMMER ACTION DOCK (21st.dev Dynamic Island) -->
+  <aside class="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50">
+    <div class="dock-island rounded-2xl p-3.5 px-4 flex items-center justify-between shadow-2xl">
+      <!-- Balanced Left Information Column -->
+      <div class="flex flex-col justify-center">
+        <div class="text-[11px] font-medium text-slate-400 leading-tight" id="dock-counter">0 услуг выбрано</div>
+        <div class="text-xl font-black text-white leading-tight mt-0.5 transition-transform duration-150" id="dock-price">0 ₽</div>
+      </div>
+      
+      <!-- Unified Bold Typography on Action Button -->
+      <button id="dock-action-btn" onclick="handleDockAction()" class="btn-red-shimmer px-6 py-3.5 rounded-xl text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-red-600/30 active:scale-95 transition-transform">
+        <span>Продолжить</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- SUCCESS BOOKING MODAL -->
+  <div id="booking-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+    <div class="glass-card p-6 max-w-sm w-full text-center space-y-4 border-red-500/30 animate-pop">
+      <div class="w-16 h-16 rounded-full bg-red-500/15 text-red-500 mx-auto flex items-center justify-center text-3xl border border-red-500/30 shadow-lg shadow-red-500/20">
+        ✓
+      </div>
+      <div>
+        <h3 class="text-xl font-black text-white">Вы успешно записаны!</h3>
+        <p class="text-xs text-slate-400 mt-1">Ждём вас в пространстве BladeCraft. Детали визита сохранены.</p>
+      </div>
+
+      <div class="p-3.5 bg-white/5 rounded-xl border border-white/5 text-left text-xs space-y-1.5" id="modal-summary"></div>
+
+      <button onclick="finishBooking()" class="w-full btn-red-shimmer py-3.5 rounded-xl text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-red-500/20">
+        Отлично, спасибо!
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Telegram WebApp Setup
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      const user = tg.initDataUnsafe?.user;
+      if (user?.first_name) {
+        const clientNameEl = document.getElementById('client-name');
+        if (clientNameEl) clientNameEl.textContent = user.first_name;
+        const clientAvatarEl = document.getElementById('client-avatar');
+        if (clientAvatarEl) clientAvatarEl.textContent = user.first_name[0];
+        const inputClient = document.getElementById('input-client-name');
+        if (inputClient) inputClient.value = user.first_name;
+      }
+    }
+
+    function haptic(type = 'light') {
+      try {
+        if (tg?.HapticFeedback) {
+          if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
+          else tg.HapticFeedback.impactOccurred(type);
+        }
+      } catch (e) {}
+    }
+
+    // Dynamic Spotlight Pointer Tracking
+    function attachSpotlightListeners() {
+      document.querySelectorAll('.glass-card, .border-beam-wrap').forEach(card => {
+        const updateSpotlight = (e) => {
+          const rect = card.getBoundingClientRect();
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        };
+        card.onpointermove = updateSpotlight;
+        card.ontouchmove = updateSpotlight;
+      });
+    }
+
+    // DATA: SERVICES (с тематическими фото и металлическим паттерном)
+    const SERVICES = [
+      {
+        id: 1,
+        cat: 'hair',
+        title: 'Мужская стрижка (Fade / Crop / Classic)',
+        desc: 'Мытье головы, подбор формы, укладка премиум-глиной',
+        duration: 45,
+        price: 1800,
+        badge: 'ХИТ',
+        badgeColor: 'bg-red-500/15 text-red-400 border-red-500/25',
+        bgImg: 'assets/service_1.jpg',
+        fallbackImg: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 2,
+        cat: 'beard',
+        title: 'Моделирование бороды и усов',
+        desc: 'Геометрия опасной бритвой, горячий компресс с маслами',
+        duration: 35,
+        price: 1300,
+        badge: null,
+        bgImg: 'assets/service_2.jpg',
+        fallbackImg: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 3,
+        cat: 'combo',
+        title: 'Комплекс: Стрижка + Борода',
+        desc: 'Полный апгрейд стиля за один визит. Экономия 400 ₽',
+        duration: 75,
+        price: 2700,
+        badge: 'ВЫГОДА',
+        badgeColor: 'bg-amber-500/15 text-amber-300 border-amber-500/25',
+        bgImg: 'assets/service_3.jpg',
+        fallbackImg: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 4,
+        cat: 'care',
+        title: 'Black Mask & SPA-уход за лицом',
+        desc: 'Распаривание, глубокое очищение пор, охлаждающая маска',
+        duration: 30,
+        price: 1200,
+        badge: 'NEW',
+        badgeColor: 'bg-rose-500/15 text-rose-300 border-rose-500/25',
+        bgImg: 'assets/service_4.jpg',
+        fallbackImg: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=700&q=80'
+      },
+      {
+        id: 5,
+        cat: 'combo',
+        title: 'Отец + Сын (Семейный комплекс)',
+        desc: 'Две классические или трендовые стрижки одновременно',
+        duration: 60,
+        price: 3100,
+        badge: null,
+        bgImg: 'assets/service_5.jpg',
+        fallbackImg: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=700&q=80'
+      }
+    ];
+
+    // DATA: MASTERS (с зумированными лицами крупным планом и векторной иконкой для авто-подбора)
+    const MASTERS = [
+      {
+        id: 'any',
+        name: 'Любой свободный мастер',
+        role: 'Ближайшее доступное время',
+        exp: 'Авто-подбор первого свободного окна',
+        rating: '5.0 ★',
+        isPhoto: false
+      },
+      {
+        id: 'alex',
+        name: 'Алексей Смирнов',
+        role: 'Top Barber & Stylist',
+        exp: 'Опыт 6 лет • 1.4k стрижек',
+        rating: '5.0 ★',
+        isPhoto: true,
+        photo: 'assets/alex.jpg'
+      },
+      {
+        id: 'mark',
+        name: 'Марк Воронов',
+        role: 'Brand Chef / Beard Master',
+        exp: 'Опыт 8 лет • Эксперт по бородам',
+        rating: '4.9 ★',
+        isPhoto: true,
+        photo: 'assets/mark.jpg'
+      },
+      {
+        id: 'dmitry',
+        name: 'Дмитрий Ким',
+        role: 'Senior Barber',
+        exp: 'Опыт 4 года • Идеальный Fade',
+        rating: '4.8 ★',
+        isPhoto: true,
+        photo: 'assets/dmitry.jpg'
+      }
+    ];
+
+    // DATA: TIME SLOTS
+    const TIME_SLOTS = {
+      morning: [
+        { time: '10:00', available: true },
+        { time: '10:45', available: false },
+        { time: '11:30', available: true }
+      ],
+      afternoon: [
+        { time: '13:00', available: true },
+        { time: '14:15', available: true },
+        { time: '15:30', available: false },
+        { time: '16:45', available: true }
+      ],
+      evening: [
+        { time: '18:00', available: true },
+        { time: '19:15', available: true },
+        { time: '20:30', available: false }
+      ]
+    };
+
+    // STATE
+    let currentStep = 1;
+    let selectedServices = [1];
+    let selectedMaster = 'any';
+    let selectedDate = null;
+    let selectedTime = '14:15';
+
+    // DIRECTIONAL FLUID STEP NAVIGATION
+    function goToStep(targetStep) {
+      if (targetStep === currentStep) return;
+      haptic('light');
+
+      const isForward = targetStep > currentStep;
+      const animClass = isForward ? 'slide-forward' : 'slide-backward';
+      currentStep = targetStep;
+
+      for (let i = 1; i <= 4; i++) {
+        const view = document.getElementById(`view-step-${i}`);
+        const pill = document.getElementById(`step-pill-${i}`);
+        
+        if (i === currentStep) {
+          view.classList.remove('hidden', 'slide-forward', 'slide-backward');
+          void view.offsetWidth;
+          view.classList.add(animClass);
+          pill.className = 'h-1.5 rounded-full bg-red-500 shadow-sm shadow-red-500/50 transition-all duration-300';
+        } else if (i < currentStep) {
+          view.classList.add('hidden');
+          view.classList.remove('slide-forward', 'slide-backward');
+          pill.className = 'h-1.5 rounded-full bg-red-700/60 transition-all duration-300';
+        } else {
+          view.classList.add('hidden');
+          view.classList.remove('slide-forward', 'slide-backward');
+          pill.className = 'h-1.5 rounded-full bg-white/10 transition-all duration-300';
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      updateDock();
+
+      if (currentStep === 4) {
+        renderTicketSummary();
+      }
+
+      setTimeout(attachSpotlightListeners, 50);
+    }
+
+    // STEP 1: SERVICES
+    let activeCategory = 'all';
+
+    function filterServices(cat, btn) {
+      if (activeCategory === cat) return;
+      activeCategory = cat;
+      haptic('light');
+
+      document.querySelectorAll('.cat-pill').forEach(b => {
+        b.className = 'cat-pill px-4 py-2 rounded-xl text-xs font-extrabold bg-white/5 text-slate-300 border border-white/10 hover:border-red-500/30 whitespace-nowrap transition-all duration-200';
+      });
+      if (btn) {
+        btn.className = 'cat-pill pill-active px-4 py-2 rounded-xl text-xs font-extrabold border border-red-500 whitespace-nowrap transition-all duration-200';
+      }
+      renderServices(true);
+    }
+
+    function toggleService(id) {
+      haptic('medium');
+      const idx = selectedServices.indexOf(id);
+      if (idx > -1) {
+        if (selectedServices.length > 1) selectedServices.splice(idx, 1);
+        else alert('Выберите хотя бы одну услугу');
+      } else {
+        selectedServices.push(id);
+      }
+      renderServices(false);
+      updateDock();
+    }
+
+    function renderServices(animated = false) {
+      const list = document.getElementById('services-list');
+      list.innerHTML = '';
+
+      const items = activeCategory === 'all' 
+        ? SERVICES 
+        : SERVICES.filter(s => s.cat === activeCategory);
+
+      items.forEach((s, idx) => {
+        const isSelected = selectedServices.includes(s.id);
+        const isHit = s.badge === 'ХИТ';
+        const cardWrapper = document.createElement('div');
+        const animClass = animated ? 'card-slide-in' : '';
+        
+        cardWrapper.className = `group cursor-pointer transition-all duration-200 ${animClass} ${isHit ? 'border-beam-wrap' : 'rounded-[20px]'}`;
+        if (animated) {
+          cardWrapper.style.animationDelay = `${idx * 40}ms`;
+        }
+        cardWrapper.onclick = () => toggleService(s.id);
+
+        let badgeHtml = '';
+        if (s.badge === 'ХИТ') {
+          badgeHtml = `<span class="px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-red-500/30 text-red-200 border border-red-500/50 shadow-[0_0_12px_rgba(239,68,68,0.4)] backdrop-blur-md flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>🔥 ХИТ ПРОДАЖ</span>`;
+        } else if (s.badge === 'ВЫГОДА') {
+          badgeHtml = `<span class="px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-200 border border-amber-500/40 shadow-sm backdrop-blur-md flex items-center gap-1">🏷 ВЫГОДА 400 ₽</span>`;
+        } else if (s.badge === 'NEW') {
+          badgeHtml = `<span class="px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-200 border border-rose-500/40 shadow-sm backdrop-blur-md flex items-center gap-1">✨ SPA РЕЛАКС</span>`;
+        }
+
+        let priceHtml = '';
+        if (s.id === 3) {
+          priceHtml = `
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-xs text-slate-500 line-through font-bold">3 100 ₽</span>
+              <span class="text-base font-black text-white">${s.price} ₽</span>
+            </div>
+          `;
+        } else {
+          priceHtml = `<span class="text-base font-black text-white">${s.price} ₽</span>`;
+        }
+
+        cardWrapper.innerHTML = `
+          ${isHit ? '<div class="border-beam-tracer"></div>' : ''}
+          <div class="glass-card relative z-10 w-full h-full overflow-hidden ${isSelected ? 'glass-selected' : 'hover:border-white/20'}">
+            <!-- TOP THEMATIC PHOTO & BRUSHED METAL BANNER -->
+            <div class="relative h-28 w-full overflow-hidden border-b border-white/10 bg-slate-950">
+              <img src="${s.bgImg}" onerror="if(this.src != '' && '${s.fallbackImg}') this.src='${s.fallbackImg}';" alt="${s.title}" class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+              <div class="absolute inset-0 metal-texture opacity-75 pointer-events-none"></div>
+              <div class="absolute inset-0 metal-sheen pointer-events-none"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d121e] via-slate-950/40 to-black/30 pointer-events-none"></div>
+
+              <!-- Pinned Top Badges -->
+              <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10 pointer-events-none">
+                <span class="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-bold text-slate-200 flex items-center gap-1 shadow-sm">
+                  ⏱ ${s.duration} мин
+                </span>
+                ${badgeHtml}
+              </div>
+            </div>
+
+            <!-- BOTTOM CARD CONTENT -->
+            <div class="p-3.5 space-y-2 relative z-10 bg-[#0d121e]/85">
+              <div class="spotlight-layer"></div>
+
+              <div>
+                <h3 class="text-sm font-extrabold text-white leading-snug group-hover:text-red-400 transition-colors">${s.title}</h3>
+                <p class="text-[11px] font-medium text-slate-400 mt-1 line-clamp-1 leading-normal">${s.desc}</p>
+              </div>
+
+              <!-- Price & Tactical Toggle Row -->
+              <div class="pt-2 flex items-center justify-between border-t border-white/5">
+                ${priceHtml}
+
+                <div class="transition-all duration-150">
+                  ${isSelected ? `
+                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-red-600 to-red-500 text-white font-black text-xs shadow-md shadow-red-500/30 border border-red-400/50 animate-pop">
+                      <span>✓</span>
+                      <span>Выбрано</span>
+                    </div>
+                  ` : `
+                    <div class="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white/5 group-hover:bg-red-500/10 text-slate-300 group-hover:text-red-300 font-bold text-xs border border-white/10 group-hover:border-red-500/30 transition-all">
+                      <span>+</span>
+                      <span>Выбрать</span>
+                    </div>
+                  `}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        list.appendChild(cardWrapper);
+      });
+
+      attachSpotlightListeners();
+    }
+
+    // STEP 2: MASTERS
+    function selectMaster(id) {
+      selectedMaster = id;
+      haptic('medium');
+      renderMasters();
+      updateDock();
+    }
+
+    function renderMasters() {
+      const list = document.getElementById('masters-list');
+      list.innerHTML = '';
+
+      MASTERS.forEach((m, idx) => {
+        const isSelected = selectedMaster === m.id;
+        const card = document.createElement('div');
+        card.className = `glass-card p-4 flex items-center justify-between cursor-pointer card-slide-in spring-tactile ${isSelected ? 'glass-selected' : 'hover:border-white/20'}`;
+        card.style.animationDelay = `${idx * 40}ms`;
+        card.onclick = () => selectMaster(m.id);
+
+        card.innerHTML = `
+          <div class="spotlight-layer"></div>
+          <div class="flex items-center gap-3.5 relative z-10">
+            <!-- Double-ring luxury avatar border -->
+            <div class="relative w-14 h-14 p-0.5 rounded-2xl bg-gradient-to-tr ${isSelected ? 'from-red-500 via-rose-600 to-red-400' : 'from-white/20 via-white/5 to-white/10'} shadow-md flex-shrink-0 transition-all duration-300">
+              <div class="w-full h-full rounded-[14px] overflow-hidden bg-slate-900 relative">
+                ${m.isPhoto ? `
+                  <img src="${m.photo}" alt="${m.name}" class="w-full h-full object-cover">
+                  <span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 shadow-sm"></span>
+                ` : `
+                  <!-- Clean Vector SVG Icon for Auto-picker -->
+                  <div class="w-full h-full bg-red-500/10 flex items-center justify-center text-red-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                `}
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-extrabold text-white leading-tight">${m.name}</h3>
+              <p class="text-xs font-bold text-red-400 mt-0.5">${m.role}</p>
+              <div class="text-[10px] text-slate-400 mt-1 font-medium flex items-center gap-1.5">
+                <span>${m.exp}</span>
+              </div>
+            </div>
+          </div>
+          <div class="text-right flex flex-col items-end justify-between min-h-[52px] relative z-10">
+            <span class="text-[11px] font-black text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded-md border border-amber-400/25 shadow-sm inline-flex items-center gap-1">
+              <span>★</span> ${m.rating}
+            </span>
+            <div class="transition-all duration-150">
+              ${isSelected ? `
+                <div class="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-red-500 text-white font-black text-xs shadow-md shadow-red-500/30 border border-red-400 animate-pop">
+                  <span>✓</span>
+                  <span>Выбран</span>
+                </div>
+              ` : `
+                <div class="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10 transition-colors">
+                  <span>Выбрать</span>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      attachSpotlightListeners();
+    }
+
+    // STEP 3: DATES & TIME SLOTS
+    function generateDays() {
+      const carousel = document.getElementById('days-carousel');
+      carousel.innerHTML = '';
+
+      const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+      const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+      const today = new Date();
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+
+        // Always show short day of the week (Сб, Вс, Пн, Вт...) so it never truncates
+        const dayName = daysOfWeek[d.getDay()];
+        const dayNumber = d.getDate();
+        const dateString = `${dayNumber} ${months[d.getMonth()]}`;
+
+        if (i === 0 && !selectedDate) selectedDate = dateString;
+        const isSelected = selectedDate === dateString;
+
+        const card = document.createElement('button');
+        card.className = `min-w-[64px] p-3 rounded-2xl flex flex-col items-center justify-center border spring-tactile transition-all ${isSelected ? 'bg-gradient-to-b from-red-500 to-red-700 text-white border-red-400 font-black shadow-lg shadow-red-500/35' : 'bg-slate-900/80 text-slate-300 border-white/10 hover:border-red-500/30 font-bold'}`;
+        card.onclick = () => {
+          selectedDate = dateString;
+          haptic('light');
+          generateDays();
+          updateDock();
+        };
+
+        card.innerHTML = `
+          <span class="text-[10px] uppercase font-bold tracking-wider opacity-90">${dayName}</span>
+          <span class="text-base font-black mt-0.5">${dayNumber}</span>
+        `;
+        carousel.appendChild(card);
+      }
+    }
+
+    function scrollDays(delta) {
+      const carousel = document.getElementById('days-carousel');
+      if (carousel) carousel.scrollBy({ left: delta, behavior: 'smooth' });
+    }
+
+    // Mouse wheel horizontal scroll on days carousel
+    setTimeout(() => {
+      const carousel = document.getElementById('days-carousel');
+      if (carousel) {
+        carousel.addEventListener('wheel', (e) => {
+          if (e.deltaY !== 0) {
+            e.preventDefault();
+            carousel.scrollLeft += e.deltaY;
+          }
+        }, { passive: false });
+      }
+    }, 100);
+
+    function renderTimeSlots() {
+      ['morning', 'afternoon', 'evening'].forEach(period => {
+        const container = document.getElementById(`slots-${period}`);
+        container.innerHTML = '';
+
+        TIME_SLOTS[period].forEach(slot => {
+          const isSelected = selectedTime === slot.time && slot.available;
+          const btn = document.createElement('button');
+          btn.disabled = !slot.available;
+
+          if (!slot.available) {
+            btn.className = 'p-3 rounded-xl bg-white/[0.02] border border-white/5 text-slate-600 text-xs font-bold line-through cursor-not-allowed opacity-50';
+            btn.innerHTML = `${slot.time}`;
+          } else if (isSelected) {
+            btn.className = 'p-3 rounded-xl bg-gradient-to-b from-red-500 to-red-700 text-white font-black text-xs shadow-md shadow-red-500/30 border border-red-400 transition-all spring-tactile animate-pop';
+            btn.innerHTML = `${slot.time} ✓`;
+          } else {
+            btn.className = 'p-3 rounded-xl bg-slate-900/80 border border-white/10 text-white font-bold text-xs hover:border-red-500/40 hover:bg-white/5 transition-all spring-tactile';
+            btn.innerHTML = `${slot.time}`;
+          }
+
+          btn.onclick = () => {
+            if (slot.available) {
+              selectedTime = slot.time;
+              haptic('medium');
+              renderTimeSlots();
+              updateDock();
+            }
+          };
+
+          container.appendChild(btn);
+        });
+      });
+    }
+
+    // Auto-formatting phone mask +7 (XXX) XXX-XX-XX
+    setTimeout(() => {
+      const phoneInput = document.getElementById('input-client-phone');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+          let val = e.target.value.replace(/\D/g, '');
+          if (val.startsWith('7') || val.startsWith('8')) val = val.substring(1);
+          let formatted = '+7 ';
+          if (val.length > 0) formatted += '(' + val.substring(0, 3);
+          if (val.length >= 3) formatted += ') ' + val.substring(3, 6);
+          if (val.length >= 6) formatted += '-' + val.substring(6, 8);
+          if (val.length >= 8) formatted += '-' + val.substring(8, 10);
+          e.target.value = formatted.trim();
+        });
+      }
+    }, 150);
+
+    // DOCK BAR LOGIC (Balanced vertical alignment and clean typography)
+    function updateDock() {
+      const selectedItems = SERVICES.filter(s => selectedServices.includes(s.id));
+      const totalPrice = selectedItems.reduce((acc, s) => acc + s.price, 0);
+      const totalDuration = selectedItems.reduce((acc, s) => acc + s.duration, 0);
+
+      document.getElementById('dock-counter').textContent = `${selectedItems.length} услуг(и) • ~${totalDuration} мин`;
+      
+      const priceEl = document.getElementById('dock-price');
+      priceEl.textContent = `${totalPrice} ₽`;
+      priceEl.classList.add('scale-105');
+      setTimeout(() => priceEl.classList.remove('scale-105'), 150);
+
+      const btn = document.getElementById('dock-action-btn');
+      if (currentStep === 1) {
+        btn.innerHTML = `<span>Выбрать барбера</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+      } else if (currentStep === 2) {
+        btn.innerHTML = `<span>Выбрать время</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+      } else if (currentStep === 3) {
+        btn.innerHTML = `<span>К оформлению</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+      } else if (currentStep === 4) {
+        // Uniform Bold Typography across the whole label
+        btn.innerHTML = `<span>Записаться в BladeCraft</span>`;
+      }
+    }
+
+    function handleDockAction() {
+      if (currentStep < 4) {
+        goToStep(currentStep + 1);
+      } else {
+        submitBooking();
+      }
+    }
+
+    // STEP 4: SUMMARY DETAILS
+    function renderTicketSummary() {
+      const selectedItems = SERVICES.filter(s => selectedServices.includes(s.id));
+      const totalPrice = selectedItems.reduce((acc, s) => acc + s.price, 0);
+      const totalDuration = selectedItems.reduce((acc, s) => acc + s.duration, 0);
+      const masterObj = MASTERS.find(m => m.id === selectedMaster);
+
+      document.getElementById('summary-services').textContent = selectedItems.map(s => s.title).join(', ');
+      document.getElementById('summary-master').textContent = masterObj ? masterObj.name : 'Любой свободный мастер';
+      document.getElementById('summary-datetime').textContent = `${selectedDate}, в ${selectedTime}`;
+      document.getElementById('summary-duration').textContent = `~${totalDuration} минут`;
+      document.getElementById('summary-total').textContent = `${totalPrice} ₽`;
+    }
+
+    // SUBMIT BOOKING
+    function submitBooking() {
+      const clientName = document.getElementById('input-client-name').value.trim() || 'Максим';
+      const clientPhone = document.getElementById('input-client-phone').value.trim() || '+7 (999) 000-00-00';
+      const selectedItems = SERVICES.filter(s => selectedServices.includes(s.id));
+      const totalPrice = selectedItems.reduce((acc, s) => acc + s.price, 0);
+      const masterObj = MASTERS.find(m => m.id === selectedMaster);
+
+      haptic('success');
+
+      const bookingPayload = {
+        booking_id: 'BC-' + Math.floor(1000 + Math.random() * 9000),
+        client: clientName,
+        phone: clientPhone,
+        services: selectedItems.map(s => s.title),
+        master: masterObj?.name || 'Любой свободный мастер',
+        datetime: `${selectedDate} ${selectedTime}`,
+        total: totalPrice
+      };
+
+      try {
+        if (tg && tg.sendData) {
+          tg.sendData(JSON.stringify(bookingPayload));
+        }
+      } catch (e) {
+        console.warn('sendData unavailable:', e);
+      }
+
+      const modal = document.getElementById('booking-modal');
+      const summaryDiv = document.getElementById('modal-summary');
+      summaryDiv.innerHTML = `
+        <div class="text-white font-extrabold pb-1 border-b border-white/10">Код брони: ${bookingPayload.booking_id}</div>
+        <div class="text-slate-300 pt-1">• <b>Мастер:</b> ${bookingPayload.master}</div>
+        <div class="text-slate-300">• <b>Время:</b> ${bookingPayload.datetime}</div>
+        <div class="text-red-400 font-black pt-1">• <b>Итого:</b> ${bookingPayload.total} ₽</div>
+      `;
+      modal.classList.remove('hidden');
+    }
+
+    function finishBooking() {
+      document.getElementById('booking-modal').classList.add('hidden');
+      goToStep(1);
+      if (tg && tg.close) {
+        try { tg.close(); } catch (e) {}
+      }
+    }
+
+    // INITIAL RENDER
+    renderServices();
+    renderMasters();
+    generateDays();
+    renderTimeSlots();
+    updateDock();
+  </script>
+</body>
+</html>
